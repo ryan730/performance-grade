@@ -1,0 +1,624 @@
+1、项目地址
+https://github.com/learnboost/kue
+
+=======================================================
+
+2、安装
+npm install kue
+
+另外需要启动redis
+brew install redis
+
+=======================================================
+3、使用
+启动依赖的redis-server
+redis-server
+
+建立目录mkdir kue-example
+
+cd kue-example
+npm install kue
+
+------------------------------------------------------------
+
+创建新文件：server.js
+
+var kue = require('kue')
+  , jobs = kue.createQueue();
+
+var job = jobs.create('email', {
+    title: 'welcome email for tj'
+  , to: 'tj@learnboost.com'
+  , template: 'welcome-email'
+}).save( function(err){
+   if( !err ) console.log( job.id );
+});
+
+// start the UI
+kue.app.listen(3000);
+console.log('UI started on port 3000');
+
+------------------------------------------------------------
+执行之，即可打开监控页面
+node server.js
+
+http://localhost:3000/
+
+
+
+
+
+
+=======================================================
+4、失败重试
+
+jobs.create('email', {
+     title: 'welcome email for tj'
+   , to: 'tj@learnboost.com'
+   , template: 'welcome-email'
+ }).priority('high').attempts(5).save();
+
+重试5次
+
+失败重试的策略默认来说是尽快重试，当然，也可以定义其它策略
+
+    // Honor job's original delay (if set) at each attempt, defaults to fixed backoff
+    job.attempts(3).backoff( true )
+
+    // Override delay value, fixed backoff
+    job.attempts(3).backoff( {delay: 60*1000, type:'fixed'} )
+
+    // Enable exponential backoff using original delay (if set)
+    job.attempts(3).backoff( {type:'exponential'} )
+
+    // Use a function to get a customized next attempt delay value
+    job.attempts(3).backoff( function( attempts, delay ){
+      return my_customized_calculated_delay;
+    })
+=======================================================
+5、实例一：
+
+var kue = require('kue')
+  , jobs = kue.createQueue();
+
+var job = jobs.create('email', {
+    title: 'welcome email for tj'
+  , to: 'tj@learnboost.com'
+  , template: 'welcome-email'
+}).save( function(err){
+   if( !err ) console.log( job.id );
+});
+
+//监听三个任务的事件
+job.on('complete', function(result){
+  console.log("Job completed with data ", result);
+}).on('failed', function(){
+  console.log("Job failed");
+}).on('progress', function(progress){
+  process.stdout.write('\r  job #' + job.id + ' ' + progress + '% complete');
+});
+
+//任务入队
+jobs.on('job enqueue', function(id,type){
+  console.log( 'job %s got queued', id );
+});
+
+//任务完成
+jobs.on('job complete', function(id,result){
+  kue.Job.get(id, function(err, job){
+    if (err) return;
+    job.remove(function(err){
+      if (err) throw err;
+      console.log('removed completed job #%d', job.id);
+    });
+  });
+});
+
+//使用贪婪关闭特性
+//https://github.com/learnboost/kue#graceful-shutdown
+process.once( 'SIGTERM', function ( sig ) {
+  queue.shutdown(function(err) {
+    console.log( 'Kue is shut down.', err||'' );
+    process.exit( 0 );
+  }, 5000 );
+});
+
+//使用并发处理特性来处理具体的任务，具体来说就是去抓取特定影院特定场次的座位信息，然后入库
+//https://github.com/learnboost/kue#processing-concurrency
+jobs.process('email', function(job, done){
+  email(job.data.to, done);
+});
+
+function email(address, done) {
+  //if(!isValidEmail(address)) {
+    //done('invalid to address') is possible but discouraged
+    //return done(new Error('invalid to address'));
+  //}
+  // email send stuff...
+  console.log(address);
+  done("I have send email to "+address);
+}
+
+
+// start the UI
+kue.app.listen(3000);
+console.log('UI started on port 3000');
+//=========================kue api 文档
+## 创建job queue job队列
+var jobs = kue.createQueue();
+
+##创建job
+var job = queue.create('email', {
+    title: 'welcome email for tj'
+  , to: 'tj@learnboost.com'
+  , template: 'welcome-email'
+}).save( function(err){
+   if( !err ) console.log( job.id );
+});
+
+##设置job优先级
+queue.create('email', {
+    title: 'welcome email for tj'
+  , to: 'tj@learnboost.com'
+  , template: 'welcome-email'
+}).priority('high').save();
+
+{
+    low: 10
+  , normal: 0
+  , medium: -5
+  , high: -10
+  , critical: -15
+};
+
+##失败后重试次数
+ queue.create('email', {
+     title: 'welcome email for tj'
+   , to: 'tj@learnboost.com'
+   , template: 'welcome-email'
+ }).priority('high').attempts(5).save();
+
+##失败后重试的延迟设置
+// Honor job's original delay (if set) at each attempt, defaults to fixed backoff 采用默认delay设置
+    job.attempts(3).backoff( true )
+
+// Override delay value, fixed backoff 延迟1分钟
+    job.attempts(3).backoff( {delay: 60*1000, type:'fixed'} )
+
+    // Enable exponential backoff using original delay (if set)
+    job.attempts(3).backoff( {type:'exponential'} )
+
+    // Use a function to get a customized next attempt delay value
+    job.attempts(3).backoff( function( attempts, delay ){
+      return my_customized_calculated_delay;
+    })
+
+##job有效时间 TTL
+queue.create('email', {title: 'email job with TTL'}).ttl(milliseconds).save();
+
+##job log
+job.log('$%d sent to %s', amount, user.name);
+
+##job进度
+job.progress(completed, total [, data])
+job.progress(frames, totalFrames);
+
+##job event
+event types
+- `enqueue` the job is now queued
+- `promotion` the job is promoted from delayed state to queued
+- `progress` the job's progress ranging from 0-100
+- `failed attempt` the job has failed, but has remaining attempts yet
+- `failed` the job has failed and has no remaining attempts
+- `complete` the job has completed
+- `remove` the job has been removed
+
+var job = queue.create('video conversion', {
+    title: 'converting loki\'s to avi'
+  , user: 1
+  , frames: 200
+});
+
+job.on('complete', function(result){
+  console.log('Job completed with data ', result);
+
+}).on('failed attempt', function(errorMessage, doneAttempts){
+  console.log('Job failed');
+
+}).on('failed', function(errorMessage){
+  console.log('Job failed');
+
+}).on('progress', function(progress, data){
+  console.log('\r  job #' + job.id + ' ' + progress + '% complete with data ', data );
+
+});
+
+Note Kue stores job objects in memory until
+they are complete/failed to be able to emit events on them.
+If you have a huge concurrency in uncompleted jobs,
+turn this feature off and use queue level events for better memory scaling.
+job对象是保存在内存的，因此如果有大量未完成的并发jobs，建议将jobEvents特性关闭，
+并使用队列级别的events
+ kue.createQueue({jobEvents: false})
+
+##queue events
+queue.on('job enqueue', function(id, type){
+  console.log( 'Job %s got queued of type %s', id, type );
+
+}).on('job complete', function(id, result){
+  kue.Job.get(id, function(err, job){
+    if (err) return;
+    job.remove(function(err){
+      if (err) throw err;
+      console.log('removed completed job #%d', job.id);
+    });
+  });
+});
+
+##delay jobs 延迟job执行
+var email = queue.create('email', {
+    title: 'Account renewal required'
+  , to: 'tj@learnboost.com'
+  , template: 'renewal-email'
+}).delay(milliseconds)
+  .priority('high')
+  .save();
+
+##processing jobs 处理job
+process是个单例对象
+Note that unlike what the name createQueue suggests,
+it currently returns a singleton Queue instance.
+So you can configure and use only a single Queue object within your node.js process.
+
+var kue = require('kue')
+ , queue = kue.createQueue();
+
+queue.process('email', function(job, done){
+  email(job.data.to, done);
+});
+
+function email(address, done) {
+  if(!isValidEmail(address)) {
+    //done('invalid to address') is possible but discouraged
+    return done(new Error('invalid to address'));
+  }
+  // email send stuff...
+  done();
+}
+
+##process Concurrency并发
+By default a call to queue.process() will only accept one job at a time
+for processing. For small tasks like sending emails this is not ideal,
+so we may specify the maximum active jobs for this type by passing a number:
+第二个参数的数字表示jobs并发数量
+
+queue.process('email', 20, function(job, done){
+  // ...
+});
+
+##pause process 暂停和恢复任务处理
+queue.process('email', function(job, ctx, done){
+  ctx.pause( 5000, function(err){
+    console.log("Worker is paused... ");
+    setTimeout( function(){ ctx.resume(); }, 10000 );
+  });
+});
+
+##update progress 更新进度
+// 创建job
+queue.create('slideshow pdf', {
+    title: user.name + "'s slideshow"
+  , slides: [...] // keys to data stored in redis, mongodb, or some other store
+});
+
+queue.process('slideshow pdf', 5, function(job, done){
+  var slides = job.data.slides
+    , len = slides.length;
+
+  function next(i) {
+    var slide = slides[i]; // pretend we did a query on this slide id ;)
+    job.log('rendering %dx%d slide', slide.width, slide.height);
+    renderSlide(slide, function(err){
+      if (err) return done(err);
+      job.progress(i, len, {nextSlide : i == len ? 'itsdone' : i + 1});
+      if (i == len) done()
+      else next(i + 1);
+    });
+  }
+
+  next(0);
+});
+
+
+##Graceful shutdown 优雅的停止
+showdown 信号 的两种处理方式
+.在给定的时间内，等jobs正在处理的job都执行完毕，所有workers都停止
+.所有正在处理的job变成失败状态，并记录失败原因为shutdown
+
+Queue#shutdown([timeout,] fn) signals all workers to stop processing
+after their current active job is done.
+
+Workers will wait timeout milliseconds for their active job's done
+to be called or mark the active job failed with shutdown error reason.
+When all workers tell Kue they are stopped fn is called.
+
+var queue = require('kue').createQueue();
+
+process.once( 'SIGTERM', function ( sig ) {
+  queue.shutdown( 5000, function(err) {
+    console.log( 'Kue shutdown: ', err||'' );
+    process.exit( 0 );
+  });
+});
+Note that shutdown method signature is changed from Kue >=0.9.0 to move the callback function to the last.
+
+##Error Handling
+
+var queue = require('kue').createQueue();
+
+queue.on( 'error', function( err ) {
+  console.log( 'Oops... ', err );
+});
+
+##Prevent from Stuck Active Jobs 防止jobs一直处于active状态
+Kue marks a job complete/failed when done is called by your worker,
+so you should use proper error handling to prevent uncaught exceptions
+ in your worker's code and node.js process exiting before in handle jobs get done.
+ This can be achieved in two ways:
+
+1 Wrapping your worker's process function in Domains（domain是node.js的异常处理模块）
+queue.process('my-error-prone-task', function(job, done){
+  var domain = require('domain').create();
+  domain.on('error', function(err){
+    done(err);
+  });
+  domain.run(function(){ // your process function
+    throw new Error( 'bad things happen' );
+    done();
+  });
+});
+
+##Queue Maintenance
+Queue object has two type of methods to tell you about the number of jobs in each state
+
+queue.inactiveCount( function( err, total ) { // others are activeCount, completeCount, failedCount, delayedCount
+  if( total > 100000 ) {
+    console.log( 'We need some back pressure here' );
+  }
+});
+
+you can also query on an specific job type:
+
+queue.failedCount( 'my-critical-job', function( err, total ) {
+  if( total > 10000 ) {
+    console.log( 'This is tOoOo bad' );
+  }
+});
+
+##Programmatic Job Management
+
+##Redis Connection Settings
+定义redis 数据库连接
+var kue = require('kue');
+var q = kue.createQueue({
+  prefix: 'job',
+  redis: {
+    port: 1234,
+    host: '10.0.50.20',
+    auth: 'password',
+    db: 0, // if provided select a non-default redis db
+    options: {
+      // see https://github.com/mranney/node_redis#rediscreateclient
+    }
+  }
+});
+或者这种方式
+var q = kue.createQueue({
+  redis: 'redis://example.com:1234?redis_option=value&redis_option=value'
+});
+##Connecting using Unix Domain Sockets
+或者通过socket方式
+var kue = require('kue');
+var q = kue.createQueue({
+  prefix: 'q',
+  redis: {
+    socket: '/data/sockets/redis.sock',
+    auth: 'password',
+    options: {
+      // see https://github.com/mranney/node_redis#rediscreateclient
+    }
+  }
+});
+
+##User-Interface
+express.js开发的ui
+
+##Third-party interfaces
+https://github.com/StreetHub/kue-ui
+
+##JSON API
+###查询jobs
+Query jobs, for example "GET /job/search?q=avi video":
+GET /job/search?q=
+
+在创建job的时候要加上searchKeys
+var kue = require('kue');
+queue = kue.createQueue();
+queue.create('email', {
+    title: 'welcome email for tj'
+  , to: 'tj@learnboost.com'
+  , template: 'welcome-email'
+}).searchKeys( ['to', 'title'] ).save();
+
+在创建队列的时候要开启search设置，默认是关闭的
+var kue = require('kue');
+q = kue.createQueue({
+    disableSearch: false
+});
+
+##GET /stats
+获取jobs统计数据
+http://127.0.0.1:3000/stats
+Currently responds with state counts, and worker activity time in milliseconds:
+
+{"inactiveCount":0,"completeCount":0,"activeCount":0,"failedCount":0,"delayedCount":7,"workTime":null}
+
+##GET /job/:id
+Get a job by :id:
+http://127.0.0.1:3000/job/7
+{"id":"3","type":"email","data":{"title":"welcome email for tj","to":"tj@learnboost.com","template":"welcome-email"},"priority":-10,"progress":"100","state":"complete","attempts":null,"created_at":"1309973155248","updated_at":"1309973155248","duration":"15002"}
+
+##GET /job/:id/log
+
+##DELETE /job/:id
+Delete job :id:
+
+$ curl -X DELETE http://local:3000/job/2
+{"message":"job 2 removed"}
+
+##POST /job
+通过API创建jobs
+Create a job:
+
+$ curl -H "Content-Type: application/json" -X POST -d \
+    '{
+       "type": "email",
+       "data": {
+         "title": "welcome email for tj",
+         "to": "tj@learnboost.com",
+         "template": "welcome-email"
+       },
+       "options" : {
+         "attempts": 5,
+         "priority": "high"
+       }
+     }' http://localhost:3000/job
+{"message": "job created", "id": 3}
+
+You can create multiple jobs at once by passing an array. In this case, the response will be an array too, preserving the order:
+
+$ curl -H "Content-Type: application/json" -X POST -d \
+    '[{
+       "type": "email",
+       "data": {
+         "title": "welcome email for tj",
+         "to": "tj@learnboost.com",
+         "template": "welcome-email"
+       },
+       "options" : {
+         "attempts": 5,
+         "priority": "high"
+       }
+     },
+     {
+       "type": "email",
+       "data": {
+         "title": "followup email for tj",
+         "to": "tj@learnboost.com",
+         "template": "followup-email"
+       },
+       "options" : {
+         "delay": 86400,
+         "attempts": 5,
+         "priority": "high"
+       }
+     }]' http://localhost:3000/job
+[
+    {"message": "job created", "id": 4},
+    {"message": "job created", "id": 5}
+]
+Note: when inserting multiple jobs in bulk, if one insertion fails Kue
+ will keep processing the remaining jobs in order.
+ The response array will contain the ids of the jobs added successfully,
+ and any failed element
+will be an object describing the error: {"error": "error reason"}.
+
+##Parallel Processing With Cluster
+并行处理（使用cluster和wokers）
+var kue = require('kue')
+  , cluster = require('cluster')
+  , queue = kue.createQueue();
+
+var clusterWorkerSize = require('os').cpus().length;
+
+if (cluster.isMaster) {
+  kue.app.listen(3000);
+  for (var i = 0; i < clusterWorkerSize; i++) {
+    cluster.fork();
+  }
+} else {
+  queue.process('email', 10, function(job, done){
+    var pending = 5
+      , total = pending;
+
+    var interval = setInterval(function(){
+      job.log('sending!');
+      job.progress(total - pending, total);
+      --pending || done();
+      pending || clearInterval(interval);
+    }, 1000);
+  });
+}
+
+##Securing Kue
+var app = express.createServer({ ... tls options ... });
+app.use(express.basicAuth('foo', 'bar'));
+app.use(kue.app);
+app.listen(3000);
+
+//=========================redis常用命令
+redis的常用命令主要分为两个方面、一个是键值相关命令、一个是服务器相关命令
+1、键值相关命令
+      keys * 取出当前所有的key
+      exists name 查看n是否有name这个key
+      del name 删除key name
+      expire confirm 100 设置confirm这个key100秒过期
+      ttl confirm 获取confirm 这个key的有效时长
+      select 0 选择到0数据库 redis默认的数据库是0~15一共16个数据库
+      move confirm 1 将当前数据库中的key移动到其他的数据库中，这里就是把confire这个key从当前数据库中移动到1中
+      persist confirm 移除confirm这个key的过期时间
+      randomkey 随机返回数据库里面的一个key
+      rename key2 key3 重命名key2 为key3
+      type key2 返回key的数据类型
+2、服务器相关命令
+      ping PONG返回响应是否连接成功
+      echo 在命令行打印一些内容
+      select 0~15 编号的数据库
+      quit  /exit 退出客户端
+      dbsize 返回当前数据库中所有key的数量
+      info 返回redis的相关信息
+      config get dir/* 实时传储收到的请求
+      flushdb 删除当前选择数据库中的所有key
+      flushall 删除所有数据库中的数据库
+
+1）连接操作命令
+quit：关闭连接（connection）
+auth：简单密码认证
+help cmd： 查看cmd帮助，例如：help quit
+
+2）持久化
+save：将数据同步保存到磁盘
+bgsave：将数据异步保存到磁盘
+lastsave：返回上次成功将数据保存到磁盘的Unix时戳
+shundown：将数据同步保存到磁盘，然后关闭服务
+
+3）远程服务控制
+info：提供服务器的信息和统计
+monitor：实时转储收到的请求
+slaveof：改变复制策略设置
+config：在运行时配置Redis服务器
+
+4）对value操作的命令
+exists(key)：确认一个key是否存在
+del(key)：删除一个key
+type(key)：返回值的类型
+keys(pattern)：返回满足给定pattern的所有key
+randomkey：随机返回key空间的一个
+keyrename(oldname, newname)：重命名key
+dbsize：返回当前数据库中key的数目
+expire：设定一个key的活动时间（s）
+ttl：获得一个key的活动时间
+select(index)：按索引查询
+move(key, dbindex)：移动当前数据库中的key到dbindex数据库
+flushdb：删除当前选择数据库中的所有key
+flushall：删除所有数据库中的所有key
