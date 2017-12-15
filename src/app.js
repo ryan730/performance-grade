@@ -9,7 +9,7 @@
 const path = require('path');
 const bodyParser = require('body-parser');
 const router = require('./routers/router');
-//const kuer = require('./app/service/queue');
+const kuer = require('./app/service/queue');
 
 const express = require('express');
 const app = express();
@@ -42,7 +42,7 @@ app.use(router);
 
 ////app.use(kuer.get().app);
 
-////kuer.create();
+kuer.create();
 
 //启动监听路由
 app.listen( port );
