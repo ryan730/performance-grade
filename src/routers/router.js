@@ -62,7 +62,8 @@ router.get( '/main', ( req, res )=>{
 } );
 
 router.post( '/post/ppter', ( req, res )=>{
-  actions.postPerformance(req, res);
+  res.json( {result:'展示页面-detail'} );
+  //actions.postPerformance(req, res);
 } );
 
 // router.get( '/*', ( req, res )=> {
