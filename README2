@@ -622,3 +622,69 @@ select(index)：按索引查询
 move(key, dbindex)：移动当前数据库中的key到dbindex数据库
 flushdb：删除当前选择数据库中的所有key
 flushall：删除所有数据库中的所有key
+
+一、key pattern 查询相应的key
+　　（1）redis允许模糊查询key　　有3个通配符  *、?、[]
+　　（2）randomkey：返回随机key　　
+　　（3）type key：返回key存储的类型
+　　（4）exists key：判断某个key是否存在
+　　（5）del key：删除key
+　　（6）rename key newkey：改名
+　　（7）renamenx key newkey：如果newkey不存在则修改成功
+　　（8）move key 1：将key移动到1数据库
+　　（9）ttl key：查询key的生命周期（秒）
+　　（10）expire key 整数值：设置key的生命周期以秒为单位
+　　（11）pexpire key 整数值：设置key的生命周期以毫秒为单位
+　　（12）pttl key：查询key 的生命周期（毫秒）
+　　（13）perisist key：把指定key设置为永久有效
+二、字符串类型的操作
+　　（1）set key value [ex 秒数] [px 毫秒数] [nx/xx]　　
+　　　　　　如果ex和px同时写，则以后面的有效期为准
+　　　　　　nx：如果key不存在则建立
+　　　　　　xx：如果key存在则修改其值
+　　（2）get key：取值
+　　（3）mset key1 value1 key2 value2 一次设置多个值
+　　（4）mget key1 key2 ：一次获取多个值
+　　（5）setrange key offset value：把字符串的offset偏移字节改成value
+　　　　　　　　　　　　　　　　　　如果偏移量 > 字符串长度，该字符自动补0x00
+　　（6）append key value ：把value追加到key 的原值上
+　　（7）getrange key start stop：获取字符串中[start, stop]范围的值
+　　　　　　　　　　　　　　　　　　对于字符串的下标，左数从0开始，右数从-1开始
+　　　　　　　　　　　　　　　　　　注意：当start>length，则返回空字符串
+　　　　　　　　　　　　　　　　　　　　　当stop>=length，则截取至字符串尾
+　　　　　　　　　　　　　　　　　　　　　如果start所处位置在stop右边，则返回空字符串
+　　（8）getset key nrevalue：获取并返回旧值，在设置新值
+　　（9）incr key：自增，返回新值，如果incr一个不是int的value则返回错误，incr一个不存在的key，则设置key为1
+　　（10）incrby key 2：跳2自增
+　　（11）incrbyfloat by 0.7： 自增浮点数　
+　　（12）setbit key offset value：设置offset对应二进制上的值，返回该位上的旧值
+　　　　　　　　　　　　　　　　　注意：如果offset过大，则会在中间填充0
+　　　　　　　　　　　　　　　　　　　　offset最大到多少
+　　　　　　　　　　　　　　　　　　　　　2^32-1，即可推出最大的字符串为512M
+　　（13）bitop operation destkey key1 [key2..]    对key1 key2做opecation并将结果保存在destkey上
+　　　　　　　　　　　　　　　　　　　　　　　　　　opecation可以是AND OR NOT XOR
+　　（14）strlen key：取指定key的value值的长度
+　  （15）setex key time value：设置key对应的值value，并设置有效期为time秒
+三、链表操作
+　　Redis的list类型其实就是一个每个子元素都是string类型的双向链表，链表的最大长度是2^32。list既可以用做栈，也可以用做队列。
+　　list的pop操作还有阻塞版本，主要是为了避免轮询
+　　（1）lpush key value：把值插入到链表头部
+　　（2）rpush key value：把值插入到链表尾部
+　　（3）lpop key ：返回并删除链表头部元素
+　　（4）rpop key： 返回并删除链表尾部元素
+　　（5）lrange key start stop：返回链表中[start, stop]中的元素
+　　（6）lrem key count value：从链表中删除value值，删除count的绝对值个value后结束
+　　　　　　　　　　　　　　　　count > 0 从表头删除　　count < 0 从表尾删除　　count=0 全部删除
+　　（7）ltrim key start stop：剪切key对应的链接，切[start, stop]一段并把改制重新赋给key
+　　（8）lindex key index：返回index索引上的值
+　　（9）llen key：计算链表的元素个数
+　　（10）linsert key after|before search value：在key 链表中寻找search，并在search值之前|之后插入value
+　　（11）rpoplpush source dest：把source 的末尾拿出，放到dest头部，并返回单元值
+　　　　应用场景： task + bak 双链表完成安全队列
+
+　业务逻辑： rpoplpush task bak
+　　　　　　　　　接收返回值并做业务处理
+　　　　　　　　　如果成功则rpop bak清除任务，如果不成功，下次从bak表取任务
+　　（12）brpop，blpop key timeout：等待弹出key的尾/头元素
+　　　　　　　　　　　　　　　　timeout为等待超时时间，如果timeout为0则一直等待下去
+　　　　　　应用场景：长轮询ajax，在线聊天时能用到
