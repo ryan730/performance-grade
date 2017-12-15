@@ -1,0 +1,67 @@
+block menu
+    //-- 左侧菜单
+    nav#sidebar-wrapper.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+        ul.nav.sidebar-nav
+            li.sidebar-brand
+                a(href='/main')  Gabriel
+            li
+                a(href='/main')
+                    i.fa.fa-fw.fa-home
+                    |  首页
+            li
+                a(href='/detail')
+                    i.fa.fa-fw.fa-folder
+                    |  用户列表
+            li
+                a(href='/assignments')
+                    i.fa.fa-fw.fa-file-o
+                    |  任务列表
+            li.dropdown
+                    a.dropdown-toggle(href='#', data-toggle='dropdown')
+                        i.fa.fa-fw.fa-plus
+                        |  消息队列
+                        span.caret
+                    ul.dropdown-menu(role='menu')
+                        li
+                            a(href='/queue/inactive')  Queued
+                        li
+                            a(href='/queue/active')  Active
+                        li
+                            a(href='/queue/failed')  Failed
+                        li
+                            a(href='/queue/complete')  Complete
+                        li
+                            a(href='/queue/delayed')  Delayed
+            //--li
+            //--    a(href='#')
+            //--        i.fa.fa-fw.fa-cog
+            //--        |  
+            //--li.dropdown
+            //--    a.dropdown-toggle(href='#', data-toggle='dropdown')
+            //--        i.fa.fa-fw.fa-plus
+            //--        |  Dropdown
+            //--        span.caret
+            //--    ul.dropdown-menu(role='menu')
+            //--        li.dropdown-header  Dropdown heading
+            //--        li
+            //--            a(href='#')  Action
+            //--        li
+            //--            a(href='#')  Another action
+            //--        li
+            //--            a(href='#')  Something else here
+            //--        li
+            //--            a(href='#')  Separated link
+            //--        li
+            //--            a(href='#')  One more separated link
+            //--li
+            //--    a(href='#')
+            //--        i.fa.fa-fw.fa-bank
+            //--        |  Page four
+            //--li
+            //--    a(href='#')
+            //--        i.fa.fa-fw.fa-dropbox
+            //--        |  Page 5
+            //--li
+            //--    a(href='#')
+            //--        i.fa.fa-fw.fa-twitter
+            //--        |  Last page

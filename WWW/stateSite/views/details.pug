@@ -1,0 +1,157 @@
+//-Author:zhuyan(ryan)
+//-mail:zhuyan6@staff.weibo.com
+//-Create Time: 2017-24 08:40
+//-Description: performance
+
+extends layout
+
+block content
+    .submitContainer
+        h2 用户列表
+        ul.nav.nav-tabs
+            li.active
+                a(href='#home', data-toggle='tab')
+                    | details of PerformancePage
+        .tab-content
+            #home.tab-pane.fade.in.active
+                .totalTitle
+                    | 当前的用户数量: #{dataList.length}
+        .panel-group(id='accordion')
+            if !dataList || dataList.length <= 0
+                .alert.alert-warning
+                    a(href="#",class="close",data-dismiss="alert") &times;
+                    strong 警告！
+                    | 列表没有数据!
+            else
+                each item, i in dataList
+                    .panel.panel-info
+                        .panel-heading.layout-flex
+                            h4.panel-title
+                                a(data-toggle='collapse', data-parent='#accordion', href='#' + 'item' + item.name,data-uid=item.name)
+                                    | 用户UID: #{item.name}
+                            .text-right 创建日期:#{item.atime}
+                        .panel-collapse.collapse(id='item' + item.name)
+                            .panel-body
+                                .list-group(data-json=item)
+
+
+
+block script
+    script(type="text/javascript").
+      Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+          "M+": this.getMonth() + 1, //月份
+          "d+": this.getDate(), //日
+          "H+": this.getHours(), //小时
+          "m+": this.getMinutes(), //分
+          "s+": this.getSeconds(), //秒
+          "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+          "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+          if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+      }
+      $(function () {
+        // return
+        var options = {
+          mode: 'view'
+        };
+        $('.panel-title').on('click',function (event) {
+          event.stopPropagation();
+          event.preventDefault();
+          location.href='/detail/'+$(event.target).data('uid');
+        })
+        $('.panel-collapse.collapse').on('show.bs.collapse', function (arg) {
+          var target = arg.target;
+          var $list_group = $(target).find('.list-group');
+          //$list_group.empty();
+          //console.log('嘿，当您展开时会提示本警告', $list_group.attr('data-json'))
+          if ($list_group.attr('data-json')) {
+            var json = $list_group.data('json');
+            $list_group.removeAttr('data-json');
+            var editor = new JSONEditor($list_group[0], options);
+            editor.set(json);
+          }
+          //$(target).collapse('toggle');
+        })
+      });
+      $('#myModal').on('show.bs.modal',
+        function (arg) {
+          //$('#myModal .modal-body img').src='';
+        }
+      )
+
+block style
+    style(type="text/css").
+        .submitContainer {
+            padding-left:220px;
+            padding-right:20px;
+        }
+        .submitContainer .totalTitle {
+            padding:10px;
+            margin-left: 5px;
+        }
+
+        .capture {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .capture .pic {
+            display: flex;
+            align-items: center;
+        }
+
+        .capture .pic img {
+            border: 1px solid #b1b1b1;
+        }
+
+        .capture .pic div {
+            padding: 20px;
+        }
+
+        .layout-flex {
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+            padding: 15px 10px;
+        }
+
+        .empty {
+            height: 50px;
+        }
+
+        .panel {
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .list-group {
+            margin-bottom: 0;
+        }
+
+        .panel-body {
+            padding: 0px;
+        }
+
+        .submitContainer .jsoneditor-menu {
+            display: none;
+            background-color: #e0f1d8;
+            border-bottom: 1px solid #e0f1d8;
+        }
+
+        .submitContainer .jsoneditor {
+            border: 1px solid #d6e9c6;
+        }
+
+        /*一个点击弹开的bug*/
+        .submitContainer .jsoneditor-outer.has-nav-bar {
+            margin: 0;
+            padding: 0;
+        }
+
+

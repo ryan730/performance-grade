@@ -1,0 +1,34 @@
+//-Author:zhuyan(ryan)
+//-mail:zhuyan6@staff.weibo.com
+//-Create Time: 2017-24 08:40
+//-Description: performance
+
+extends layout
+
+block content
+    .submitContainer
+        h2 加入请求
+        p Welcome to PerformancePage
+        div
+            form.bs-example.bs-example-form(role='form')
+                .row
+                    .col-lg-6
+                        .input-group
+                            input.form-control(type='text',name='address',autocomplete='on',placeholder='默认地址:http://ad.weibo.com')
+                            span.input-group-btn
+                                button.btn.btn-default(type='button')
+                                    | Go!
+    .resultContainer
+
+block script
+    script(src='./src/performance.js',type="text/javascript")
+block style
+    style(type="text/css").
+        .submitContainer {
+            padding-left:220px;
+            padding-right:20px;
+        }
+        .resultContainer {
+            padding-left: 220px;
+            padding-right: 20px;
+        }

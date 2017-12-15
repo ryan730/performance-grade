@@ -1,0 +1,36 @@
+//-Author:zhuyan(ryan)
+//-mail:zhuyan6@staff.weibo.com
+//-Create Time: 2017-24 08:41
+//-Description: layout
+
+
+doctype html
+html
+    head
+        title= 打分结果
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        link(rel='apple-touch-icon-precomposed', href='/src/assets/timg.ico')
+        link(rel='shortcut icon', href='/src/assets/timg.ico')
+
+        link(rel='stylesheet', href='/src/css/style.css')
+        link(rel='stylesheet', href='/src/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/src/css/nprogress.css')
+        link(rel="stylesheet", href="/src/css/prism_dark.css")
+        link(rel="stylesheet", href="/src/css/jsoneditor.css")
+        link(rel="stylesheet", href="/src/css/menus.css")
+        block style
+    body
+        block popOver
+            include popOver
+        block menu
+            include menus
+        block content
+        script(src='/src/libs/jquery.min.js',type="text/javascript")
+        script(src='/src/libs/bootstrap.min.js',type="text/javascript")
+        script(src='/src/libs/nprogress.js',type="text/javascript")
+        script(src='/src/libs/prism.js',type="text/javascript")
+        script(src='/src/libs/validator.js',type="text/javascript")
+        script(src='/src/libs/jsoneditor.js',type="text/javascript")
+        script(src='/src/libs/menus.js',type="text/javascript")
+        block script
+

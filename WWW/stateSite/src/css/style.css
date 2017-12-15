@@ -1,0 +1,40 @@
+pre {
+    white-space: pre-wrap;
+}
+.key {
+    color: #52ef3a;
+}
+
+.number{
+    color: #52ef3a;
+}
+
+.score {
+    color: #ef0708;
+}
+.score:after {
+    cotent:'一二';
+    display: inline-block;
+    width: 500px;
+}
+
+.string {
+    color: #52ef3a;
+}
+
+.boolean {
+    color: #efee32;
+}
+
+.null {
+    color: #b3b3b1;
+}
+
+.resultContainer > iframe{
+    width:100%;
+    height:500px;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+

@@ -1,0 +1,35 @@
+extends layout
+
+block content
+    .submitContainer
+        h2 守护队列
+        p Welcome to PerformancePage
+        .resultContainer(data-name=name)
+
+
+block script
+    script(type="text/javascript").
+            var iframe = document.getElementById('queueIframe');
+            if(!iframe){
+                iframe = document.createElement( 'iframe' );
+                iframe.id='queueIframe';
+                iframe.onload = function() {
+                  //iframe.contentWindow.onload = function () {
+                    //console.log('iframe:', iframe.contentWindow)
+                    //window.setJSONHandler();
+                  //}
+                }
+              iframe.src = 'http://127.0.0.1:9010/'+$('.resultContainer').data('name');
+              $('.resultContainer')[0].appendChild(iframe);
+            }
+
+block style
+    style(type="text/css").
+        .submitContainer {
+            padding-left:220px;
+            padding-right:20px;
+        }
+        .resultContainer {
+            margin-left: -105px;
+            padding-right: 20px;
+        }

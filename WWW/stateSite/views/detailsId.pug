@@ -1,0 +1,161 @@
+//-Author:zhuyan(ryan)
+//-mail:zhuyan6@staff.weibo.com
+//-Create Time: 2017-24 08:40
+//-Description: performance
+
+extends layout
+
+block content
+    // 模态框（Modal）
+    #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+        .modal-dialog(style='width:1000px')
+            .modal-content
+                .modal-header
+                    button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+                    h4#myModalLabel.modal-title
+                    //-| 模态框（Modal）标题
+                .modal-body
+                    img(width='100%',height='100%')
+                .modal-footer
+                    button.btn.btn-default(type='button', data-dismiss='modal') 关闭
+
+    .submitContainer
+        h2 用户任务列表
+        ul.nav.nav-tabs
+            li.active
+                a(href='#home', data-toggle='tab')
+                    | details of PerformancePage
+        .tab-content
+            #home.tab-pane.fade.in.active
+                .totalTitle
+                    | 当前的任务数量: #{dataList.length}
+        .panel-group(id='accordion')
+            if !dataList || dataList.length <= 0
+                .alert.alert-warning
+                    a(href="#",class="close",data-dismiss="alert") &times;
+                    strong 警告！
+                    | 列表没有数据!
+            else
+                each item, i in dataList
+                    .panel(class=item.state==='success'?'panel-success':'panel-danger')
+                        .panel-heading.layout-flex
+                            h4.panel-title
+                                a(data-toggle='collapse', data-parent='#accordion', href='#' + 'item' + item.jobId)
+                                    | #{item.url}
+                            .text-right 创建人Id:#{item.userId}
+                            .text-right 创建日期:#{item.date}
+                        .panel-collapse.collapse(id='item' + item.jobId)
+                            .capture
+                                each it,j in item.captureImg
+                                    .pic
+                                        img(src=it,width=1024 / 5,height=768 / 5,alt='通用的占位符缩略图')
+                                        div
+                                            button(id='btnImg-' + item.jobId,class="btn btn-info btn-sm",data-toggle="modal",data-target="#myModal",data-pic=it,data-title=["重定向截图", "首屏截图"][j]) 放大截图
+                            .panel-body
+                                .list-group(data-json=item)
+
+
+
+block script
+    script(type="text/javascript").
+      $(function () {
+        // return
+        var options = {
+          mode: 'view'
+        };
+        $('.panel-collapse.collapse').on('show.bs.collapse', function (arg) {
+          var target = arg.target;
+          var $list_group = $(target).find('.list-group');
+          //$list_group.empty();
+          //console.log('嘿，当您展开时会提示本警告', $list_group.attr('data-json'))
+          if ($list_group.attr('data-json')) {
+            var json = $list_group.data('json');
+            $list_group.removeAttr('data-json');
+            var editor = new JSONEditor($list_group[0], options);
+            editor.set(json);
+          }
+          //$(target).collapse('toggle');
+        })
+      });
+      $('button[id^="btnImg-"]').on('click', function () {
+        $('#myModal .modal-header .modal-title ').html(' ▌ ' + $(this).data('title'));
+        $('#myModal .modal-body img')[0].src = $(this).data('pic');
+      })
+      $('#myModal').on('show.bs.modal',
+        function (arg) {
+          //$('#myModal .modal-body img').src='';
+        }
+      )
+
+block style
+    style(type="text/css").
+        .submitContainer {
+            padding-left: 220px;
+            padding-right: 20px;
+        }
+        .submitContainer .totalTitle {
+            padding:10px;
+            margin-left: 5px;
+        }
+
+        .capture {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .capture .pic {
+            display: flex;
+            align-items: center;
+        }
+
+        .capture .pic img {
+            border: 1px solid #b1b1b1;
+        }
+
+        .capture .pic div {
+            padding: 20px;
+        }
+
+        .layout-flex {
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+            padding: 15px 10px;
+        }
+
+        .empty {
+            height: 50px;
+        }
+
+        .panel {
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .list-group {
+            margin-bottom: 0;
+        }
+
+        .panel-body {
+            padding: 0px;
+        }
+
+        .submitContainer .jsoneditor-menu {
+            display: none;
+            background-color: #e0f1d8;
+            border-bottom: 1px solid #e0f1d8;
+        }
+
+        .submitContainer .jsoneditor {
+            border: 1px solid #d6e9c6;
+        }
+
+        /*一个点击弹开的bug*/
+        .submitContainer .jsoneditor-outer.has-nav-bar {
+            margin: 0;
+            padding: 0;
+        }
+
+
