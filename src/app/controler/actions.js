@@ -11,6 +11,7 @@ import request from 'request';
 //尝试请求地址,返回状态
 let cookie;
 function requestConnet(siteUrl){
+  console.log('尝试连接')
   let j = request.jar();
   if(cookie) {
     let myCookie = request.cookie( cookie );
