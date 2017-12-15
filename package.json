@@ -1,0 +1,55 @@
+{
+  "name": "performance-grade",
+  "version": "1.0.1",
+  "description": "页面打分系统(后端)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bekill": "kill -9 $(lsof -i tcp:1501 |awk '{print $2}' | tail -n 2) ",
+    "dev": "nodemon --watch src --watch src/*.* src/index.js http://127.0.0.1:1501"
+  },
+  "keywords": [
+    "performance",
+    "grade",
+    "chrome"
+  ],
+  "author": "ryan.zhu",
+  "license": "ISC",
+  "devDependencies": {
+    "body-parser": "~1.8.x",
+    "chrome-launcher": "^0.6.0",
+    "chrome-remote-interface": "^0.24.4",
+    "express": "~4.10.x",
+    "jade": "^1.11.0",
+    "jquery": "^3.2.1",
+    "jsdom": "^11.2.0",
+    "json-stable-stringify": "^1.0.1",
+    "jsoneditor": "^5.11.0",
+    "koa-seo": "^1.1.1",
+    "kue": "^0.11.6",
+    "mkdirp": "^0.5.1",
+    "moment": "^2.19.3",
+    "nodemon": "^1.11.0",
+    "pug": "^2.0.0-rc.3",
+    "request": "^2.83.0",
+    "sha1": "^1.1.1",
+    "uuid": "^3.1.0",
+    "walk": "^2.3.9"
+  },
+  "dependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.3",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-async-await": "0.0.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
+  }
+}
