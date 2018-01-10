@@ -9,8 +9,8 @@
 const path = require('path');
 const bodyParser = require('body-parser');
 const router = require('./routers/router');
-/////const kuer = require('./app/service/queue');
-const kuerTest = require('./kueTest');
+//////const kuer = require('./app/service/queue');
+///////const kuerTest = require('./kueTest');
 
 const express = require('express');
 const app = express();

@@ -6,7 +6,7 @@
  　　/"""""""""""""""""""\
  　　\_@_@_@_@_@_@_@/
  */
-/////const kuer = require('../service/queue');
+const kuer = require('../service/queue');
 import request from 'request';
 //尝试请求地址,返回状态
 let cookie;
