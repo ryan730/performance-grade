@@ -9,7 +9,7 @@
 const path = require('path');
 const bodyParser = require('body-parser');
 const router = require('./routers/router');
-//////const kuer = require('./app/service/queue');
+const kuer = require('./app/service/queue');
 ///////const kuerTest = require('./kueTest');
 
 const express = require('express');
@@ -41,9 +41,9 @@ app.use(express.static(path.join(process.cwd(), 'WWW/stateSite')));
 //设置路由
 app.use(router);
 
-////app.use(kuer.get().app);
+app.use(kuer.get().app);
 
-/////kuer.create();
+kuer.create();
 
 //启动监听路由
 app.listen( port );
