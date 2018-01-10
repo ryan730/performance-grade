@@ -37,14 +37,14 @@ exports.postPerformance = function( req, res, arg ) {
   (async()=>{
     try{
       await requestConnet(req.body.url);
-      // kuer.add(req,res,{state:'success'},(data)=>{
-      //   res.json({msg:'已提交到服务队列处理',code:0,result:data});
-      // });
+      kuer.add(req,res,{state:'success'},(data)=>{
+        res.json({msg:'已提交到服务队列处理',code:0,result:data});
+      });
     }catch(e){
       console.log( 'error:',e );
-      // kuer.add(req,res,{state:'fail'},(data)=>{
-      //   res.json({msg:'提交url超时或者返回异常',code:-1,result:data,errorMsg:e});
-      // });
+      kuer.add(req,res,{state:'fail'},(data)=>{
+        res.json({msg:'提交url超时或者返回异常',code:-1,result:data,errorMsg:e});
+      });
     }
   })();
 }
