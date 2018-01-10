@@ -71,7 +71,7 @@ function outputJSONHandle(data){
       },0)
     })
   }
-  iframe.src ='../json-handle/JSON-handle.html';
+  iframe.src ='/json-handle/JSON-handle.html';
   $('.resultContainer')[0].appendChild( iframe );
 }
 
