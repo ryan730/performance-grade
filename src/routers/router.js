@@ -63,6 +63,7 @@ router.get( '/main', ( req, res )=>{
 
 router.post( '/post/ppter', ( req, res )=>{
   //res.json( {result:'展示页面-detail'} );
+  console.log('router.post(/post/ppter')
   actions.postPerformance(req, res);
 } );
 

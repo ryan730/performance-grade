@@ -34,8 +34,9 @@ function requestConnet(siteUrl){
 
 }
 exports.postPerformance = function( req, res, arg ) {
+  console.log('exports.postPerformance1:')
   (async()=>{
-    console.log('exports.postPerformance:')
+    console.log('exports.postPerformance2:')
     try{
       await requestConnet(req.body.url);
       kuer.add(req,res,{state:'success'},(data)=>{
