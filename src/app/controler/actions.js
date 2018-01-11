@@ -36,8 +36,8 @@ function requestConnet(siteUrl){
 exports.postPerformance = function( req, res, arg ) {
   console.log('exports.postPerformance1:')
   (async()=>{
-    console.log('exports.postPerformance2:')
     try{
+      console.log('exports.postPerformance2:')
       await requestConnet(req.body.url);
       kuer.add(req,res,{state:'success'},(data)=>{
         res.json({msg:'已提交到服务队列处理',code:0,result:data});
