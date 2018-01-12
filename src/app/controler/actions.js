@@ -34,9 +34,10 @@ function requestConnet(siteUrl){
 
 }
 exports.postPerformance = function( req, res, arg ) {
-  async function done(){
-  //-(async()=>{
+  console.log('exports.postPerformance1:')
+  (async()=>{
     try{
+      console.log('exports.postPerformance2:')
       await requestConnet(req.body.url);
       kuer.add(req,res,{state:'success'},(data)=>{
         res.json({msg:'已提交到服务队列处理',code:0,result:data});
@@ -47,8 +48,5 @@ exports.postPerformance = function( req, res, arg ) {
         res.json({msg:'提交url超时或者返回异常',code:-1,result:data,errorMsg:e});
       });
     }
-  }
-  //)();
-  console.log('exports.postPerformance1:')
-  done();
+  })();
 }
