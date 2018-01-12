@@ -12,6 +12,9 @@ const actions = require( '../app/controler/actions' );
 const express = require( 'express' );
 const router = express.Router();
 
+const logger = require('../utils/logHelp').helper;
+
+
 // 该路由使用的中间件
 router.use(( req, res, next )=> {
     console.log( '中间件-Time: ', Date.now() );
@@ -63,7 +66,7 @@ router.get( '/main', ( req, res )=>{
 
 router.post( '/post/ppter', ( req, res )=>{
   //res.json( {result:'展示页面-detail'} );
-  console.log('router.post(/post/ppter')
+  logger.writeInfo("哈哈1开始记录日志");
   actions.postPerformance(req, res);
 } );
 

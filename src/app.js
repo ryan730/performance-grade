@@ -15,7 +15,10 @@ const kuer = require('./app/service/queue');
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 1501
-
+const log4js = require('log4js');
+const logger = require('./utils/logHelp').logger;
+//http请求打印
+////app.use(log4js.connectLogger(logger, { level: 'auto' }));
 //模版view所在的目录或者目录数组
 app.set('views', path.join(process.cwd(), 'WWW/stateSite') + '/views');
 
