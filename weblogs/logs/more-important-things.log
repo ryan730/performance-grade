@@ -46,3 +46,13 @@
 [2018-01-12T23:10:20.608] [INFO] things - Listening on port:1501
 [2018-01-12T23:10:20.608] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
 [2018-01-12T23:10:20.608] [INFO] things - ==开始记录日志==
+[2018-01-12T23:12:43.552] [INFO] things - 中间件-Time:  1515769963552
+[2018-01-12T23:12:43.553] [INFO] things - 哈哈1开始记录日志
+[2018-01-12T23:13:30.893] [INFO] things - 中间件-Time:  1515770010893
+[2018-01-12T23:13:30.893] [INFO] things - 哈哈1开始记录日志
+[2018-01-12T23:37:09.782] [INFO] things - kue 启动! 9010
+[2018-01-12T23:37:09.784] [INFO] things - Listening on port:1501
+[2018-01-12T23:37:09.784] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-12T23:37:09.784] [INFO] things - ==开始记录日志==
+[2018-01-12T23:37:20.761] [INFO] things - 中间件-Time:  1515771440760
+[2018-01-12T23:37:22.113] [INFO] things - 中间件-Time:  1515771442113

@@ -17,6 +17,7 @@ const app = express();
 const port = process.env.PORT || 1501
 const log4js = require('log4js');
 const logger = require('./utils/logHelp').logger;
+const mlogger = require('morgan');
 //http请求打印
 ////app.use(log4js.connectLogger(logger, { level: 'auto' }));
 //模版view所在的目录或者目录数组
@@ -27,6 +28,8 @@ app.set('view engine', 'pug');
 //parsing application/x-www-form-urlencoded
 
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(mlogger())
 
 //body返回json格式
 app.use(bodyParser.json());
