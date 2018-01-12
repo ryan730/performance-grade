@@ -65,9 +65,10 @@ router.get( '/main', ( req, res )=>{
 } );
 
 router.post( '/post/ppter', ( req, res )=>{
-  //res.json( {result:'展示页面-detail'} );
+
   logger.writeInfo("哈哈1开始记录日志");
-  actions.postPerformance(req, res);
+  /////actions.postPerformance(req, res);
+  res.json( {result:'/post/ppter'} );
 } );
 
 // router.get( '/*', ( req, res )=> {
