@@ -67,8 +67,8 @@ router.get( '/main', ( req, res )=>{
 router.post( '/post/ppter', ( req, res )=>{
 
   logger.writeInfo("哈哈1开始记录日志");
-  /////actions.postPerformance(req, res);
-  res.json( {result:'/post/ppter'} );
+  actions.postPerformance(req, res);
+  ////res.json( {result:'/post/ppter'} );
 } );
 
 // router.get( '/*', ( req, res )=> {

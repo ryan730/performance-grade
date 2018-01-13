@@ -19,7 +19,8 @@ block script
                     //window.setJSONHandler();
                   //}
                 }
-              iframe.src = 'http://127.0.0.1:9010/'+$('.resultContainer').data('name');
+              var host = location.hostname+':9010/';
+              iframe.src = host'+$('.resultContainer').data('name');
               $('.resultContainer')[0].appendChild(iframe);
             }
 

@@ -29,7 +29,7 @@ app.set('view engine', 'pug');
 
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(mlogger())
+//app.use(mlogger())
 
 //body返回json格式
 app.use(bodyParser.json());

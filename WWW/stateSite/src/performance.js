@@ -29,7 +29,7 @@ function requestURL ( sendData ) {
   $.ajax( {
     //url: 'http://127.0.0.1:15972/getPerformance:yslow',
     //url: 'http://127.0.0.1:1501/getPerformance/'+location.pathname.split(':')[1],//yslow or pupperteer
-    url: 'http://127.0.0.1:1501/post/ppter',
+    url: '/post/ppter',
     type: 'POST',
     data: sendData,
     dataType: 'json',

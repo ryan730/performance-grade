@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "bekill": "kill -9 $(lsof -i tcp:1501 |awk '{print $2}' | tail -n 2) ",
-    "dev": "nodemon --watch src --watch src/*.* src/index.js http://127.0.0.1:1501"
+    "dev": "nodemon --watch src src/index.js http://127.0.0.1:1501"
   },
   "keywords": [
     "performance",

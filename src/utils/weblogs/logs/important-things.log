@@ -1,4 +1,4 @@
-[2018-01-13T14:38:48.318] [INFO] things - kue 启动! 9010
-[2018-01-13T14:38:48.320] [INFO] things - Listening on port:1501
-[2018-01-13T14:38:48.320] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
-[2018-01-13T14:38:48.320] [INFO] things - ==开始记录日志==
+[2018-01-13T16:00:04.480] [INFO] things - kue 启动! 9010
+[2018-01-13T16:00:04.485] [INFO] things - Listening on port:1501
+[2018-01-13T16:00:04.485] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-13T16:00:04.486] [INFO] things - ==开始记录日志==
