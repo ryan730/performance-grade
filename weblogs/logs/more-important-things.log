@@ -1,58 +1,48 @@
-[2018-01-12T23:03:19.809] [INFO] things - kue 启动! 9010
-[2018-01-12T23:03:19.811] [INFO] things - Listening on port:1501
-[2018-01-12T23:03:19.811] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
-[2018-01-12T23:03:19.812] [INFO] things - ==开始记录日志==
-[2018-01-12T23:04:48.791] [INFO] things - 中间件-Time:  1515769488791
-[2018-01-12T23:04:49.551] [INFO] things - 中间件-Time:  1515769489551
-[2018-01-12T23:07:40.075] [INFO] things - 中间件-Time:  1515769660075
-[2018-01-12T23:07:40.076] [INFO] things - 哈哈1开始记录日志
-[2018-01-12T23:07:40.077] [INFO] things - exports.postPerformance1:
-[2018-01-12T23:07:40.078] [INFO] things - 尝试连接
-[2018-01-12T23:07:40.146] [INFO] things - 尝试连接成功!url地址正常
-[2018-01-12T23:07:40.155] [INFO] things - 35
-[2018-01-12T23:07:40.160] [INFO] things - job 35 got queued
-[2018-01-12T23:07:40.162] [INFO] things - 正在处理: { url: 'http://ad.weibo.com',
-  title: '收集需要性能打分的页面',
-  id: '5f003543310e181312d49f8991c8ba675ba26f43',
-  date: '2018-01-12 23:07:40',
-  state: 'success',
-  userId: '13412345673' }
-[2018-01-12T23:07:40.164] [INFO] things - saveGrade-正在处理: 35 { url: 'http://ad.weibo.com',
-  title: '收集需要性能打分的页面',
-  id: '5f003543310e181312d49f8991c8ba675ba26f43',
-  date: '2018-01-12 23:07:40',
-  state: 'success',
-  userId: '13412345673' } success
-[2018-01-12T23:07:40.166] [INFO] things - launchChrome->start
-[2018-01-12T23:07:41.072] [INFO] things - launchChrome->init: 64286
-[2018-01-12T23:07:41.178] [INFO] things - launchChrome->env set completed!
-[2018-01-12T23:07:42.362] [INFO] things - launchChrome->capture-1!
-[2018-01-12T23:08:13.581] [INFO] things - launchChrome->capture-2!
-[2018-01-12T23:08:13.616] [INFO] things - 文档创建完成;
-[2018-01-12T23:08:13.617] [INFO] things - saveGrade-处理完成-success: { url: 'http://ad.weibo.com',
-  title: '收集需要性能打分的页面',
-  id: '5f003543310e181312d49f8991c8ba675ba26f43',
-  date: '2018-01-12 23:07:40',
-  state: 'success',
-  userId: '13412345673' }
-[2018-01-12T23:08:19.147] [INFO] things - 百分比加载完成: 35 10
-[2018-01-12T23:08:19.148] [INFO] things - 处理完成: { url: 'http://ad.weibo.com',
-  title: '收集需要性能打分的页面',
-  id: '5f003543310e181312d49f8991c8ba675ba26f43',
-  date: '2018-01-12 23:07:40',
-  state: 'success',
-  userId: '13412345673' }
-[2018-01-12T23:10:20.605] [INFO] things - kue 启动! 9010
-[2018-01-12T23:10:20.608] [INFO] things - Listening on port:1501
-[2018-01-12T23:10:20.608] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
-[2018-01-12T23:10:20.608] [INFO] things - ==开始记录日志==
-[2018-01-12T23:12:43.552] [INFO] things - 中间件-Time:  1515769963552
-[2018-01-12T23:12:43.553] [INFO] things - 哈哈1开始记录日志
-[2018-01-12T23:13:30.893] [INFO] things - 中间件-Time:  1515770010893
-[2018-01-12T23:13:30.893] [INFO] things - 哈哈1开始记录日志
-[2018-01-12T23:37:09.782] [INFO] things - kue 启动! 9010
-[2018-01-12T23:37:09.784] [INFO] things - Listening on port:1501
-[2018-01-12T23:37:09.784] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
-[2018-01-12T23:37:09.784] [INFO] things - ==开始记录日志==
-[2018-01-12T23:37:20.761] [INFO] things - 中间件-Time:  1515771440760
-[2018-01-12T23:37:22.113] [INFO] things - 中间件-Time:  1515771442113
+[2018-01-13T14:18:00.726] [INFO] things - kue 启动! 9010
+[2018-01-13T14:18:00.734] [INFO] things - Listening on port:1501
+[2018-01-13T14:18:00.736] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-13T14:18:00.736] [INFO] things - ==开始记录日志==
+[2018-01-13T14:19:24.335] [INFO] things - kue 启动! 9010
+[2018-01-13T14:19:24.338] [INFO] things - Listening on port:1501
+[2018-01-13T14:19:24.338] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-13T14:19:24.338] [INFO] things - ==开始记录日志==
+[2018-01-13T14:21:23.361] [INFO] things - kue 启动! 9010
+[2018-01-13T14:21:23.363] [INFO] things - Listening on port:1501
+[2018-01-13T14:21:23.363] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-13T14:21:23.364] [INFO] things - ==开始记录日志==
+[2018-01-13T14:22:24.580] [INFO] things - kue 启动! 9010
+[2018-01-13T14:22:24.582] [INFO] things - Listening on port:1501
+[2018-01-13T14:22:24.582] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-13T14:22:24.582] [INFO] things - ==开始记录日志==
+[2018-01-13T14:23:23.132] [INFO] things - kue 启动! 9010
+[2018-01-13T14:23:23.134] [INFO] things - Listening on port:1501
+[2018-01-13T14:23:23.134] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-13T14:23:23.134] [INFO] things - ==开始记录日志==
+[2018-01-13T14:23:45.994] [INFO] things - kue 启动! 9010
+[2018-01-13T14:23:45.996] [INFO] things - Listening on port:1501
+[2018-01-13T14:23:45.996] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-13T14:23:45.996] [INFO] things - ==开始记录日志==
+[2018-01-13T14:29:03.756] [INFO] things - kue 启动! 9010
+[2018-01-13T14:29:03.758] [INFO] things - Listening on port:1501
+[2018-01-13T14:29:03.758] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-13T14:29:03.758] [INFO] things - ==开始记录日志==
+[2018-01-13T14:29:59.102] [INFO] things - kue 启动! 9010
+[2018-01-13T14:29:59.104] [INFO] things - Listening on port:1501
+[2018-01-13T14:29:59.104] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-13T14:29:59.104] [INFO] things - ==开始记录日志==
+[2018-01-13T14:30:27.223] [INFO] things - kue 启动! 9010
+[2018-01-13T14:30:27.225] [INFO] things - Listening on port:1501
+[2018-01-13T14:30:27.226] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-13T14:30:27.226] [INFO] things - ==开始记录日志==
+[2018-01-13T14:30:49.885] [INFO] things - kue 启动! 9010
+[2018-01-13T14:30:49.887] [INFO] things - Listening on port:1501
+[2018-01-13T14:30:49.888] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-13T14:30:49.888] [INFO] things - ==开始记录日志==
+[2018-01-13T14:38:01.757] [INFO] things - kue 启动! 9010
+[2018-01-13T14:38:01.759] [INFO] things - Listening on port:1501
+[2018-01-13T14:38:01.759] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-13T14:38:01.760] [INFO] things - ==开始记录日志==
+[2018-01-13T14:38:48.318] [INFO] things - kue 启动! 9010
+[2018-01-13T14:38:48.320] [INFO] things - Listening on port:1501
+[2018-01-13T14:38:48.320] [INFO] things - asset patch: /Users/ryan/company_work/weibo/git/performance-grade/WWW/stateSite
+[2018-01-13T14:38:48.320] [INFO] things - ==开始记录日志==
